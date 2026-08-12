@@ -67,6 +67,11 @@ describe('shared components', () => {
     )
 
     const table = screen.getByRole('table', { name: 'Example report' })
+    expect(
+      screen.getByRole('region', {
+        name: 'Example report, scroll horizontally to view all columns',
+      }),
+    ).toHaveAttribute('tabindex', '0')
     expect(within(table).getAllByRole('columnheader')).toHaveLength(2)
     expect(
       within(table).getByRole('cell', { name: 'Maya' }),

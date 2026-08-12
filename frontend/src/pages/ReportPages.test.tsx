@@ -42,6 +42,7 @@ describe('report detail pages', () => {
     renderRoute('/reports/users')
 
     const table = await screen.findByRole('table', { name: 'Users report' })
+    expect(document.title).toBe('Users | Enfos Reporting Portal')
     expect(
       within(table)
         .getAllByRole('columnheader')

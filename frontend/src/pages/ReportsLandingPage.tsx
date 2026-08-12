@@ -5,9 +5,11 @@ import { LoadingState } from '../components/LoadingState'
 import { PageHeader } from '../components/PageHeader'
 import { ReportGrid } from '../components/ReportGrid'
 import { SearchInput } from '../components/SearchInput'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { useReports } from '../hooks/useReports'
 
 export function ReportsLandingPage() {
+  useDocumentTitle('Reports')
   const [searchText, setSearchText] = useState('')
   const reportsQuery = useReports()
   const normalizedSearch = searchText.trim().toLocaleLowerCase()

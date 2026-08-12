@@ -5,6 +5,7 @@ import { EmptyState } from '../components/EmptyState'
 import { ErrorState } from '../components/ErrorState'
 import { LoadingState } from '../components/LoadingState'
 import { PageHeader } from '../components/PageHeader'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 interface ReportPageProps<Row> {
   title: string
@@ -21,6 +22,8 @@ export function ReportPage<Row>({
   query,
   getRowKey,
 }: ReportPageProps<Row>) {
+  useDocumentTitle(title)
+
   return (
     <div>
       <BackLink />

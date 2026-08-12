@@ -64,6 +64,7 @@ describe('ReportsLandingPage', () => {
     expect(
       await screen.findByRole('heading', { name: 'Users' }),
     ).toBeInTheDocument()
+    expect(document.title).toBe('Reports | Enfos Reporting Portal')
     expect(
       screen.getByRole('heading', { name: 'Departments' }),
     ).toBeInTheDocument()

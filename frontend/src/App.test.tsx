@@ -23,5 +23,30 @@ describe('App', () => {
     )
 
     expect(screen.getByRole('heading', { name: 'Reports' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Skip to main content' }),
+    ).toHaveAttribute('href', '#main-content')
+  })
+
+  it('renders a useful page for an unknown route', () => {
+    vi.mocked(reportsApi.getReports).mockResolvedValue([])
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    })
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={['/missing']}>
+          <App />
+        </MemoryRouter>
+      </QueryClientProvider>,
+    )
+
+    expect(
+      screen.getByRole('heading', { name: 'Page not found' }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('link', { name: 'Return to reports' }),
+    ).toHaveAttribute('href', '/')
   })
 })

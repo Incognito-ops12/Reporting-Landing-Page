@@ -1,6 +1,7 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { AppLayout } from './components/AppLayout'
 import { DepartmentsReportPage } from './pages/DepartmentsReportPage'
+import { NotFoundPage } from './pages/NotFoundPage'
 import { ProjectsReportPage } from './pages/ProjectsReportPage'
 import { ReportsLandingPage } from './pages/ReportsLandingPage'
 import { UsersReportPage } from './pages/UsersReportPage'
@@ -16,7 +17,7 @@ export default function App() {
           element={<DepartmentsReportPage />}
         />
         <Route path="/reports/projects" element={<ProjectsReportPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </AppLayout>
   )

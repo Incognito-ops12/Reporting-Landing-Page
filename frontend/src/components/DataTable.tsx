@@ -22,7 +22,12 @@ export function DataTable<Row>({
 }: DataTableProps<Row>) {
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="overflow-x-auto">
+      <div
+        className="overflow-x-auto focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-blue-700"
+        role="region"
+        aria-label={`${caption}, scroll horizontally to view all columns`}
+        tabIndex={0}
+      >
         <table className="w-full min-w-200 border-collapse text-left text-sm">
           <caption className="sr-only">{caption}</caption>
           <thead className="border-b border-slate-200 bg-slate-50 text-xs font-semibold tracking-wide text-slate-600 uppercase">
