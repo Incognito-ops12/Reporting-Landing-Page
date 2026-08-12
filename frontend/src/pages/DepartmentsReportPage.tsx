@@ -11,6 +11,7 @@ export function DepartmentsReportPage() {
       columns={departmentColumns}
       query={query}
       getRowKey={(row) => row.departmentId}
+      icon="building"
     />
   )
 }

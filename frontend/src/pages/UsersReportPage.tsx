@@ -11,6 +11,7 @@ export function UsersReportPage() {
       columns={userColumns}
       query={query}
       getRowKey={(row) => row.userId}
+      icon="users"
     />
   )
 }

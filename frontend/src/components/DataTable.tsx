@@ -21,7 +21,7 @@ export function DataTable<Row>({
   getRowKey,
 }: DataTableProps<Row>) {
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_35px_rgba(15,23,42,0.05)]">
       <div
         className="overflow-x-auto focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-blue-700"
         role="region"
@@ -30,7 +30,7 @@ export function DataTable<Row>({
       >
         <table className="w-full min-w-200 border-collapse text-left text-sm">
           <caption className="sr-only">{caption}</caption>
-          <thead className="border-b border-slate-200 bg-slate-50 text-xs font-semibold tracking-wide text-slate-600 uppercase">
+          <thead className="border-b border-slate-200 bg-[#f8f9fc] text-xs font-bold tracking-wide text-slate-600 uppercase">
             <tr>
               {columns.map((column) => (
                 <th
@@ -47,7 +47,7 @@ export function DataTable<Row>({
             {rows.map((row) => (
               <tr
                 key={getRowKey(row)}
-                className="transition-colors hover:bg-slate-50"
+                className="transition-colors duration-200 hover:bg-indigo-50/50"
               >
                 {columns.map((column) => (
                   <td

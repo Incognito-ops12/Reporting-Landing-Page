@@ -22,18 +22,18 @@ export function ReportsLandingPage() {
   )
 
   return (
-    <div>
+    <div className="max-w-6xl">
       <PageHeader
         eyebrow="Reporting portal"
         title="Reports"
-        description="Browse organizational reports and open the data you need."
+        description="Browse and explore available company reports."
       />
-      <section className="mt-9" aria-labelledby="reports-section-title">
-        <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <section className="mt-10" aria-labelledby="reports-section-title">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2
               id="reports-section-title"
-              className="text-lg font-semibold text-slate-950"
+              className="text-lg font-bold text-[#11162f]"
             >
               Available reports
             </h2>
@@ -43,7 +43,7 @@ export function ReportsLandingPage() {
                 : 'Find a report by name'}
             </p>
           </div>
-          <div className="w-full sm:max-w-sm">
+          <div className="w-full sm:max-w-md">
             <SearchInput value={searchText} onChange={setSearchText} />
           </div>
         </div>

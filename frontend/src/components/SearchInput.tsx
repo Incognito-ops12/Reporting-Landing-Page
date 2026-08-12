@@ -1,13 +1,22 @@
 interface SearchInputProps {
   value: string
   onChange: (value: string) => void
+  id?: string
+  label?: string
+  placeholder?: string
 }
 
-export function SearchInput({ value, onChange }: SearchInputProps) {
+export function SearchInput({
+  value,
+  onChange,
+  id = 'report-search',
+  label = 'Search reports by name',
+  placeholder = 'Search reports by name…',
+}: SearchInputProps) {
   return (
     <div className="relative">
-      <label className="sr-only" htmlFor="report-search">
-        Search reports by name
+      <label className="sr-only" htmlFor={id}>
+        {label}
       </label>
       <svg
         aria-hidden="true"
@@ -23,13 +32,23 @@ export function SearchInput({ value, onChange }: SearchInputProps) {
         />
       </svg>
       <input
-        id="report-search"
+        id={id}
         type="search"
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        placeholder="Search reports"
-        className="h-12 w-full rounded-lg border border-slate-300 bg-white pr-4 pl-11 text-sm text-slate-950 shadow-sm placeholder:text-slate-400 hover:border-slate-400"
+        placeholder={placeholder}
+        className="h-12 w-full rounded-xl border border-slate-200 bg-white pr-10 pl-11 text-sm text-slate-950 shadow-sm transition-all duration-200 placeholder:text-slate-400 hover:border-indigo-300 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
       />
+      {value ? (
+        <button
+          type="button"
+          aria-label={`Clear ${label.toLowerCase()}`}
+          onClick={() => onChange('')}
+          className="absolute top-1/2 right-2.5 grid size-8 -translate-y-1/2 place-items-center rounded-lg text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+        >
+          ×
+        </button>
+      ) : null}
     </div>
   )
 }

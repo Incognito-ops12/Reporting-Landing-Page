@@ -14,12 +14,13 @@ export function LoadingState({ variant }: LoadingStateProps) {
           <div
             key={item}
             aria-hidden="true"
-            className="h-60 animate-pulse rounded-xl border border-slate-200 bg-white p-6"
+            className="h-72 animate-pulse rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
           >
-            <div className="h-5 w-1/3 rounded bg-slate-200" />
+            <div className="size-12 rounded-2xl bg-slate-200" />
+            <div className="mt-5 h-5 w-1/3 rounded bg-slate-200" />
             <div className="mt-4 h-4 w-3/4 rounded bg-slate-100" />
             <div className="mt-2 h-4 w-1/2 rounded bg-slate-100" />
-            <div className="mt-20 h-4 w-2/5 rounded bg-slate-100" />
+            <div className="mt-16 h-11 w-full rounded-xl bg-slate-100" />
           </div>
         ))}
       </div>
@@ -30,7 +31,7 @@ export function LoadingState({ variant }: LoadingStateProps) {
     <div
       role="status"
       aria-label="Loading report data"
-      className="overflow-hidden rounded-xl border border-slate-200 bg-white"
+      className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
     >
       <div aria-hidden="true" className="animate-pulse">
         <div className="h-12 border-b border-slate-200 bg-slate-100" />

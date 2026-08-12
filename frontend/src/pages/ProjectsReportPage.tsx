@@ -11,6 +11,7 @@ export function ProjectsReportPage() {
       columns={projectColumns}
       query={query}
       getRowKey={(row) => row.projectId}
+      icon="folder"
     />
   )
 }

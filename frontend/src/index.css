@@ -8,7 +8,18 @@
 
 @layer base {
   body {
-    @apply min-w-80 bg-slate-50 font-sans text-slate-950 antialiased;
+    @apply min-w-80 bg-[#f6f7fb] font-sans text-slate-950 antialiased;
+    background-image:
+      radial-gradient(
+        circle at 85% 0%,
+        rgb(238 242 255 / 0.75),
+        transparent 28rem
+      ),
+      radial-gradient(
+        circle at 30% 100%,
+        rgb(245 243 255 / 0.6),
+        transparent 25rem
+      );
   }
 
   button,
@@ -16,6 +27,58 @@
   input {
     @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700;
   }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes state-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: page-enter 260ms ease-out both;
+}
+.state-enter {
+  animation: state-enter 220ms ease-out both;
+}
+.report-card {
+  animation: card-enter 240ms ease-out both;
+}
+.report-card:nth-child(2) {
+  animation-delay: 45ms;
+}
+.report-card:nth-child(3) {
+  animation-delay: 90ms;
+}
+.back-link {
+  animation: page-enter 220ms ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
