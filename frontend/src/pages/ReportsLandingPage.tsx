@@ -7,11 +7,13 @@ import { ReportGrid } from '../components/ReportGrid'
 import { SearchInput } from '../components/SearchInput'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { useReports } from '../hooks/useReports'
+import { useMinimumLoadingState } from '../hooks/useMinimumLoadingState'
 
 export function ReportsLandingPage() {
   useDocumentTitle('Reports')
   const [searchText, setSearchText] = useState('')
   const reportsQuery = useReports()
+  const showInitialLoading = useMinimumLoadingState(reportsQuery.isPending)
   const normalizedSearch = searchText.trim().toLocaleLowerCase()
   const filteredReports = useMemo(
     () =>
@@ -48,20 +50,23 @@ export function ReportsLandingPage() {
           </div>
         </div>
 
-        {reportsQuery.isPending ? <LoadingState variant="cards" /> : null}
-        {reportsQuery.isError ? (
+        {showInitialLoading ? <LoadingState variant="cards" /> : null}
+        {!showInitialLoading && reportsQuery.isError ? (
           <ErrorState
             title="We couldn't load the available reports."
             onRetry={() => void reportsQuery.refetch()}
           />
         ) : null}
-        {reportsQuery.isSuccess && reportsQuery.data.length === 0 ? (
+        {!showInitialLoading &&
+        reportsQuery.isSuccess &&
+        reportsQuery.data.length === 0 ? (
           <EmptyState
             title="No reports are currently available."
             message="Please check back later or contact your administrator."
           />
         ) : null}
-        {reportsQuery.isSuccess &&
+        {!showInitialLoading &&
+        reportsQuery.isSuccess &&
         reportsQuery.data.length > 0 &&
         filteredReports.length === 0 ? (
           <EmptyState
@@ -71,7 +76,9 @@ export function ReportsLandingPage() {
             onAction={() => setSearchText('')}
           />
         ) : null}
-        {reportsQuery.isSuccess && filteredReports.length > 0 ? (
+        {!showInitialLoading &&
+        reportsQuery.isSuccess &&
+        filteredReports.length > 0 ? (
           <ReportGrid reports={filteredReports} />
         ) : null}
       </section>

@@ -74,7 +74,7 @@ The backend follows controller → service → repository boundaries. React page
 .
 ├── backend/              Spring Boot API, tests, and Dockerfile
 ├── frontend/             React application, tests, Nginx config, and Dockerfile
-├── docs/                 Review and demo guidance
+├── docs/                 Optional submission screenshots
 ├── docker-compose.yml    Full-stack orchestration
 ├── .env.example          Optional non-secret configuration
 └── README.md
@@ -144,31 +144,27 @@ pnpm format:check
 
 ### In-memory data
 
-**Decision:** Keep immutable mock records behind a repository interface. **Why:** It fulfills the reporting behavior without database deployment complexity. **Alternative:** H2 or PostgreSQL. **Why not:** Persistence, migrations, and database operations do not solve an assessment requirement. **Interview explanation:** The repository boundary allows a database implementation later without changing controllers.
+**Decision:** Keep immutable mock records behind a repository interface. **Why:** It fulfills the reporting behavior without database deployment complexity. **Alternative:** H2 or PostgreSQL. **Why not:** Persistence, migrations, and database operations do not solve an assessment requirement. The repository boundary allows a database implementation later without changing controllers.
 
 ### React state and data fetching
 
-**Decision:** Use TanStack Query for server state and component state for search input. **Why:** It provides loading, error, retry, and cache behavior without mixing remote data with UI state. **Alternative:** A global store or handwritten request lifecycle. **Why not:** Both add unnecessary concepts or repeated code for this scope. **Interview explanation:** State lives at the narrowest appropriate layer.
+**Decision:** Use TanStack Query for server state and component state for search input. **Why:** It provides loading, error, retry, and cache behavior without mixing remote data with UI state. **Alternative:** A global store or handwritten request lifecycle. **Why not:** Both add unnecessary concepts or repeated code for this scope. State lives at the narrowest appropriate layer.
 
 ### Backend layering
 
-**Decision:** Separate controllers, services, and the in-memory provider. **Why:** HTTP concerns, application logic, and data access remain independently testable. **Alternative:** Return static lists directly from controllers. **Why not:** That couples transport and data concerns. **Interview explanation:** The layers create replaceable seams without speculative abstraction.
+**Decision:** Separate controllers, services, and the in-memory provider. **Why:** HTTP concerns, application logic, and data access remain independently testable. **Alternative:** Return static lists directly from controllers. **Why not:** That couples transport and data concerns. The layers create replaceable seams without speculative abstraction.
 
 ### Docker architecture
 
-**Decision:** Build both applications in multi-stage images and use Nginx as the only public entry point. **Why:** Runtime images exclude build toolchains, React Router refreshes work, and same-origin API proxying is simple. **Alternative:** Publish both containers or run Vite in production. **Why not:** Two public origins require more CORS configuration, while a development server is not a production host. **Interview explanation:** Compose manages service discovery and health; the browser only knows `localhost:3000`.
+**Decision:** Build both applications in multi-stage images and use Nginx as the only public entry point. **Why:** Runtime images exclude build toolchains, React Router refreshes work, and same-origin API proxying is simple. **Alternative:** Publish both containers or run Vite in production. **Why not:** Two public origins require more CORS configuration, while a development server is not a production host. Compose manages service discovery and health; the browser only knows `localhost:3000`.
 
 ### Responsive tables
 
-**Decision:** Preserve meaningful columns and contain wide tables in a labeled horizontal-scroll region. **Why:** Hiding columns would remove report information. **Alternative:** Collapse rows into mobile cards. **Why not:** Cards make cross-row comparison harder and duplicate presentation logic. **Interview explanation:** The table remains semantically intact at every viewport.
+**Decision:** Preserve meaningful columns and contain wide tables in a labeled horizontal-scroll region. **Why:** Hiding columns would remove report information. **Alternative:** Collapse rows into mobile cards. **Why not:** Cards make cross-row comparison harder and duplicate presentation logic. The table remains semantically intact at every viewport.
 
 ## Production considerations
 
 A production evolution would add identity-provider authentication, role-based report authorization, persistent storage and migrations, pagination and server-side filtering for large datasets, structured logs and metrics, rate limiting, automated vulnerability scanning, CI/CD, TLS, and environment-specific secret management. These are intentionally described as future work rather than implied assessment requirements.
-
-## Demo and submission
-
-See [docs/DEMO.md](docs/DEMO.md) for a 60–90 second walkthrough, screenshot plan, and submission checklist.
 
 ## AI usage
 

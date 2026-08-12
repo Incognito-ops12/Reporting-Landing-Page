@@ -81,6 +81,12 @@
   animation: page-enter 220ms ease-out both;
 }
 
+.app-search::-webkit-search-cancel-button,
+.app-search::-webkit-search-decoration {
+  appearance: none;
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

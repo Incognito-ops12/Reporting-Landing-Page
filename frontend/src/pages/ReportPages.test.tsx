@@ -150,4 +150,78 @@ describe('report detail pages', () => {
     ).toBeInTheDocument()
     expect(reportsApi.getProjectsReport).toHaveBeenCalledTimes(2)
   })
+
+  it('filters report rows and clears a no-results search', async () => {
+    vi.mocked(reportsApi.getUsersReport).mockResolvedValue([
+      {
+        userId: 'USR-1001',
+        name: 'Maya Thompson',
+        email: 'maya@example.test',
+        role: 'Program Manager',
+        status: 'ACTIVE',
+        createdDate: '2023-02-14',
+      },
+      {
+        userId: 'USR-1002',
+        name: 'Marcus Chen',
+        email: 'marcus@example.test',
+        role: 'Data Analyst',
+        status: 'INACTIVE',
+        createdDate: '2024-03-20',
+      },
+    ])
+    renderRoute('/reports/users')
+
+    const search = await screen.findByRole('searchbox', {
+      name: 'Search Users report',
+    })
+    fireEvent.change(search, { target: { value: 'analyst' } })
+    expect(screen.getByText('Marcus Chen')).toBeInTheDocument()
+    expect(screen.queryByText('Maya Thompson')).not.toBeInTheDocument()
+
+    fireEvent.change(search, { target: { value: 'missing' } })
+    expect(
+      screen.getByRole('heading', {
+        name: 'No users match “missing”.',
+      }),
+    ).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Clear search' }))
+    expect(screen.getByText('Maya Thompson')).toBeInTheDocument()
+  })
+
+  it('refreshes and exports report data', async () => {
+    vi.mocked(reportsApi.getDepartmentsReport).mockResolvedValue([
+      {
+        departmentId: 'DEP-101',
+        departmentName: 'Environmental Operations',
+        manager: 'Jordan Lee',
+        employeeCount: 24,
+        location: 'Chicago, IL',
+      },
+    ])
+    const createObjectURL = vi.fn(() => 'blob:report')
+    const revokeObjectURL = vi.fn()
+    Object.defineProperty(URL, 'createObjectURL', {
+      configurable: true,
+      value: createObjectURL,
+    })
+    Object.defineProperty(URL, 'revokeObjectURL', {
+      configurable: true,
+      value: revokeObjectURL,
+    })
+    const anchorClick = vi
+      .spyOn(HTMLAnchorElement.prototype, 'click')
+      .mockImplementation(() => undefined)
+
+    renderRoute('/reports/departments')
+    await screen.findByRole('table', { name: 'Departments report' })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Refresh' }))
+    expect(reportsApi.getDepartmentsReport).toHaveBeenCalledTimes(2)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Export' }))
+    expect(createObjectURL).toHaveBeenCalledOnce()
+    expect(anchorClick).toHaveBeenCalledOnce()
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:report')
+  })
 })

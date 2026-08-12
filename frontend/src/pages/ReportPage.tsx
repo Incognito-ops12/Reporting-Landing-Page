@@ -9,6 +9,7 @@ import { PageHeader } from '../components/PageHeader'
 import { Icon } from '../components/Icon'
 import { SearchInput } from '../components/SearchInput'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
+import { useMinimumLoadingState } from '../hooks/useMinimumLoadingState'
 
 interface ReportPageProps<Row> {
   title: string
@@ -29,6 +30,7 @@ export function ReportPage<Row>({
 }: ReportPageProps<Row>) {
   useDocumentTitle(title)
   const [searchText, setSearchText] = useState('')
+  const showInitialLoading = useMinimumLoadingState(query.isPending)
   const normalizedSearch = searchText.trim().toLocaleLowerCase()
   const filteredRows = useMemo(
     () =>
@@ -72,7 +74,7 @@ export function ReportPage<Row>({
         />
       </div>
       <div className="mt-8 rounded-2xl border border-slate-200/80 bg-white/60 p-2 shadow-[0_14px_45px_rgba(15,23,42,0.04)] sm:p-3">
-        {query.isSuccess && query.data.length > 0 ? (
+        {!showInitialLoading && query.isSuccess && query.data.length > 0 ? (
           <div className="mb-3 flex flex-col gap-3 rounded-xl bg-white p-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="w-full sm:max-w-sm">
               <SearchInput
@@ -106,17 +108,18 @@ export function ReportPage<Row>({
             </div>
           </div>
         ) : null}
-        {query.isPending ? <LoadingState variant="table" /> : null}
-        {query.isError ? (
+        {showInitialLoading ? <LoadingState variant="table" /> : null}
+        {!showInitialLoading && query.isError ? (
           <ErrorState onRetry={() => void query.refetch()} />
         ) : null}
-        {query.isSuccess && query.data.length === 0 ? (
+        {!showInitialLoading && query.isSuccess && query.data.length === 0 ? (
           <EmptyState
             title="No data available for this report."
             message="Report data will appear here when it becomes available."
           />
         ) : null}
-        {query.isSuccess &&
+        {!showInitialLoading &&
+        query.isSuccess &&
         query.data.length > 0 &&
         filteredRows.length === 0 ? (
           <EmptyState
@@ -126,7 +129,7 @@ export function ReportPage<Row>({
             onAction={() => setSearchText('')}
           />
         ) : null}
-        {query.isSuccess && filteredRows.length > 0 ? (
+        {!showInitialLoading && query.isSuccess && filteredRows.length > 0 ? (
           <DataTable
             caption={`${title} report`}
             columns={columns}
