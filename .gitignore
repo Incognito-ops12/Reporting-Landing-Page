@@ -1,0 +1,11 @@
+.DS_Store
+.env
+
+# Java
+backend/target/
+*.class
+
+# Editors
+.idea/
+.vscode/
+*.iml
